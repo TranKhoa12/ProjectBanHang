@@ -12,28 +12,28 @@
     </div>
 <?php endif; ?>
 
-<form method="POST" action="/projectbanhang/Product/update" onsubmit="return validateForm();">
+<form method="POST" action="/projectbanhang/Product/update" enctype="multipart/form-data" onsubmit="return validateForm();">
     <input type="hidden" name="id" value="<?php echo $product->id; ?>">
-    
+
     <div class="form-group">
         <label for="name">Tên sản phẩm:</label>
         <input type="text" id="name" name="name" class="form-control" 
                value="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>" required>
     </div>
-    
+
     <div class="form-group">
         <label for="description">Mô tả:</label>
         <textarea id="description" name="description" class="form-control" required>
             <?php echo htmlspecialchars($product->description, ENT_QUOTES, 'UTF-8'); ?>
         </textarea>
     </div>
-    
+
     <div class="form-group">
         <label for="price">Giá:</label>
         <input type="number" id="price" name="price" class="form-control" step="0.01" 
                value="<?php echo htmlspecialchars($product->price, ENT_QUOTES, 'UTF-8'); ?>" required>
     </div>
-    
+
     <div class="form-group">
         <label for="category_id">Danh mục:</label>
         <select id="category_id" name="category_id" class="form-control" required>
@@ -45,7 +45,17 @@
             <?php endforeach; ?>
         </select>
     </div>
-    
+
+    <div class="form-group">
+        <label for="image">Hình ảnh:</label>
+        <input type="file" id="image" name="image" class="form-control">
+        <input type="hidden" name="existing_image" value="<?php echo $product->image; ?>">
+
+        <?php if ($product->image): ?>
+            <img src="/<?php echo $product->image; ?>" alt="Product Image" style="max-width: 100px;">
+        <?php endif; ?>
+    </div>
+
     <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
 </form>
 
