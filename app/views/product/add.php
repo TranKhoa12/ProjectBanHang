@@ -12,19 +12,22 @@
     </div>
 <?php endif; ?>
 
-<form method="POST" action="/projectbanhang/Product/save" onsubmit="return validateForm();">
+<form method="POST" action="/projectbanhang/Product/save" enctype="multipart/form-data" onsubmit="return validateForm();">
     <div class="form-group">
         <label for="name">Tên sản phẩm:</label>
         <input type="text" id="name" name="name" class="form-control" required>
     </div>
+    
     <div class="form-group">
         <label for="description">Mô tả:</label>
         <textarea id="description" name="description" class="form-control" required></textarea>
     </div>
+    
     <div class="form-group">
         <label for="price">Giá:</label>
         <input type="number" id="price" name="price" class="form-control" step="0.01" required>
     </div>
+    
     <div class="form-group">
         <label for="category_id">Danh mục:</label>
         <select id="category_id" name="category_id" class="form-control" required>
@@ -35,6 +38,12 @@
             <?php endforeach; ?>
         </select>
     </div>
+    
+    <div class="form-group">
+        <label for="image">Hình ảnh:</label>
+        <input type="file" id="image" name="image" class="form-control">
+    </div>
+    
     <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
 </form>
 
