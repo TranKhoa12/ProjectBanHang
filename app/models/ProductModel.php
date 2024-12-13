@@ -1,62 +1,114 @@
 <?php
-
 class ProductModel
 {
-    // Thuộc tính của lớp ProductModel 
-    private $ID;
-    private $Name;
-    private $Description;
-    private $Price;
+    private $conn;
+    private $table_name = "product";
 
-    // Constructor để khởi tạo đối tượng ProductModel 
-    public function __construct($ID, $Name, $Description, $Price)
+    public function __construct($db)
     {
-        $this->ID = $ID;
-        $this->Name = $Name;
-        $this->Description = $Description;
-        $this->Price = $Price;
+        $this->conn = $db;
     }
 
-    // Getter và Setter cho thuộc tính ID 
-    public function getID()
+    public function getProducts()
     {
-        return $this->ID;
+        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name 
+                  FROM " . $this->table_name . " p 
+                  LEFT JOIN category c ON p.category_id = c.id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $result;
     }
 
-    public function setID($ID)
+    public function getProductById($id)
     {
-        $this->ID = $ID;
-    }
-    // Getter và Setter cho thuộc tính Name 
-    public function getName()
-    {
-        return $this->Name;
-    }
-
-    public function setName($Name)
-    {
-        $this->Name = $Name;
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
+        return $result;
     }
 
-    // Getter và Setter cho thuộc tính Description 
-    public function getDescription()
+    public function addProduct($name, $description, $price, $category_id)
     {
-        return $this->Description;
+        $errors = [];
+
+        // Validation
+        if (empty($name)) {
+            $errors['name'] = 'Tên sản phẩm không được để trống';
+        }
+        if (empty($description)) {
+            $errors['description'] = 'Mô tả không được để trống';
+        }
+        if (!is_numeric($price) || $price < 0) {
+            $errors['price'] = 'Giá sản phẩm không hợp lệ';
+        }
+        if (count($errors) > 0) {
+            return $errors;
+        }
+
+        // Query
+        $query = "INSERT INTO " . $this->table_name . " (name, description, price, category_id) 
+                  VALUES (:name, :description, :price, :category_id)";
+        $stmt = $this->conn->prepare($query);
+
+        // Sanitization
+        $name = htmlspecialchars(strip_tags($name));
+        $description = htmlspecialchars(strip_tags($description));
+        $price = htmlspecialchars(strip_tags($price));
+        $category_id = htmlspecialchars(strip_tags($category_id));
+
+        // Bind parameters
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':category_id', $category_id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 
-    public function setDescription($Description)
+    public function updateProduct($id, $name, $description, $price, $category_id)
     {
-        $this->Description = $Description;
+        $query = "UPDATE " . $this->table_name . " 
+                  SET name=:name, description=:description, price=:price, category_id=:category_id 
+                  WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+
+        // Sanitization
+        $name = htmlspecialchars(strip_tags($name));
+        $description = htmlspecialchars(strip_tags($description));
+        $price = htmlspecialchars(strip_tags($price));
+        $category_id = htmlspecialchars(strip_tags($category_id));
+
+        // Bind parameters
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':category_id', $category_id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 
-    // Getter và Setter cho thuộc tính Price 
-    public function getPrice()
+    public function deleteProduct($id)
     {
-        return $this->Price;
-    }
+        $query = "DELETE FROM " . $this->table_name . " WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
 
-    public function setPrice($Price)
-    {
-        $this->Price = $Price;
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 }
