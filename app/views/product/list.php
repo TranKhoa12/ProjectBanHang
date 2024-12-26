@@ -1,9 +1,8 @@
 <?php include 'app/views/shares/header.php'; ?>
 
-<h1>Danh sách sản phẩm</h1>
-<a href="/projectbanhang/Product/add" class="btn btn-success mb-2">Thêm sản phẩm mới</a>
-
 <div class="container">
+    <h1>Danh sách sản phẩm</h1>
+    <a href="/projectbanhang/Product/add" class="btn btn-success mb-2">Thêm sản phẩm mới</a>
     <div class="row">
         <?php foreach ($products as $product): ?>
         <div class="col-md-4 mb-3">
@@ -32,7 +31,6 @@
                         onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
                     <a href="/projectbanhang/Product/addToCart/<?php echo $product->id; ?>" class="btn btn-primary">
                         Thêm vào giỏ hàng</a>
-
                 </div>
             </div>
         </div>

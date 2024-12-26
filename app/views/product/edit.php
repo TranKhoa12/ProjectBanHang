@@ -1,5 +1,6 @@
 <?php include 'app/views/shares/header.php'; ?>
 
+<div class="container mt-4">
 <h1>Sửa sản phẩm</h1>
 
 <?php if (!empty($errors)): ?>
@@ -51,9 +52,9 @@
         <label for="image">Hình ảnh:</label>
         <input type="file" id="image" name="image" class="form-control">
         <input type="hidden" name="existing_image" value="<?php echo $product->image; ?>">
-
+<br/>
         <?php if ($product->image): ?>
-        <img src="/<?php echo $product->image; ?>" alt="Product Image" style="max-width: 100px;">
+        <img src="/projectbanhang/<?php echo $product->image; ?>" alt="Product Image" style="max-width: 200px;">
         <?php endif; ?>
     </div>
 
@@ -61,5 +62,5 @@
 </form>
 
 <a href="/projectbanhang/Product/" class="btn btn-secondary mt-2">Quay lại danh sách sản phẩm</a>
-
+</div>
 <?php include 'app/views/shares/footer.php'; ?>

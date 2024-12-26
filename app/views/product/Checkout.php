@@ -18,7 +18,6 @@
     <button type="submit" class="btn btn-primary">Thanh toán</button>
 </form>
 
-<a href="/projectbanhang/Product/cart" class="btn btn-secondary mt-2">Quay lại giỏ
-    hàng</a>
+<a href="/projectbanhang/Product/cart" class="btn btn-secondary mt-2">Quay lại giỏ hàng</a>
 
 <?php include 'app/views/shares/footer.php'; ?>

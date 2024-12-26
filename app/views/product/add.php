@@ -1,5 +1,5 @@
 <?php include 'app/views/shares/header.php'; ?>
-
+<div class="container mt-4">
 <h1>Thêm sản phẩm mới</h1>
 
 <?php if (!empty($errors)): ?>
@@ -48,5 +48,5 @@
 </form>
 
 <a href="/projectbanhang/Product/" class="btn btn-secondary mt-2">Quay lại danh sách sản phẩm</a>
-
+</div>
 <?php include 'app/views/shares/footer.php'; ?>
